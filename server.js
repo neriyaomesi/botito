@@ -25,7 +25,7 @@ app.post("/message", async (req, res) => {
   }
 
   try {
-    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+    const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
     const result = await model.generateContent(msg);
     const reply = result.response.text();
 
@@ -39,3 +39,4 @@ app.post("/message", async (req, res) => {
 app.listen(port, () => {
   console.log(`Botito Gemini server listening on port ${port}`);
 });
+
