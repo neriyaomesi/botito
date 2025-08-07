@@ -4,15 +4,25 @@ require("dotenv").config();
 const { GoogleGenerativeAI } = require("@google/generative-ai");
 
 const app = express();
-const PORT = process.env.PORT || 3000;
+const port = process.env.PORT || 4000;
 
 app.use(bodyParser.json());
 
-// קונפיגורציה עם המפתח של Gemini
+// חיבור ל-Gemini
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
 
+// בדיקה ראשונית שהשרת חי
+app.get("/", (req, res) => {
+  res.send("Botito Gemini server is running 🚀");
+});
+
+// נקודת קצה להודעות
 app.post("/message", async (req, res) => {
   const { msg } = req.body;
+
+  if (!msg) {
+    return res.status(400).json({ reply: "חסר טקסט" });
+  }
 
   try {
     const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
@@ -20,12 +30,12 @@ app.post("/message", async (req, res) => {
     const reply = result.response.text();
 
     res.json({ reply });
-  } catch (error) {
-    console.error("Gemini API error:", error);
+  } catch (err) {
+    console.error("Gemini API error:", err);
     res.status(500).json({ reply: "שגיאה בעיבוד ההודעה 🤖" });
   }
 });
 
-app.listen(PORT, () => {
-  console.log(`Botito Gemini server running on port ${PORT}`);
+app.listen(port, () => {
+  console.log(`Botito Gemini server listening on port ${port}`);
 });
