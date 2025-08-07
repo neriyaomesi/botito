@@ -34,7 +34,7 @@ function saveHistory(history) {
 const BOT_PERSONALITY = `
 אתה בוטיטו 🤖 – בוט חכם, מצחיק וזורם, שמדבר בעברית יומיומית.
 אתה תמיד עונה בצורה קלילה אבל עם ידע, ואוהב להוסיף אמוג'ים.
-אם שואלים אותך שאלה – אתה עונה ישר, בלי התחמקויות.
+אם שואלים אותך שאלה – אתה עונה ישר, בלי התחמקויות. תמיד תוסיף מדי פעם אימוג'ים!!
 `;
 
 // בדיקת חיבור
@@ -63,7 +63,7 @@ app.post("/message", async (req, res) => {
     ];
 
     // שליחת הבקשה ל-Gemini
-    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+    const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" });
     const result = await model.generateContent(
       conversation.map(c => `${c.role === "user" ? "משתמש" : "בוט"}: ${c.text}`).join("\n")
     );
@@ -85,3 +85,4 @@ app.post("/message", async (req, res) => {
 app.listen(port, () => {
   console.log(`Botito Gemini server with history listening on port ${port}`);
 });
+
